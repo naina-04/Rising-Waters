@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flood Risk Dashboard | Rising Waters</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-body">
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-glass fixed-top shadow-sm">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-water me-2 text-primary" viewBox="0 0 16 16">
+                    <path d="M.036 10.031A5.6 5.6 0 0 1 8 5c2.69 0 4.923 2 5.166 4.579C14.758 9.004 16 10.222 16 11.5c0 1.93-1.67 3.5-3.5 3.5H3.5C1.567 15 0 13.433 0 11.5c0-1.22.89-2.31 2.276-2.529zM3.5 14h9c1.38 0 2.5-1.12 2.5-2.5 0-1.144-.805-2.126-1.92-2.404l-.53-.131-.11-.531A4.6 4.6 0 0 0 8 6a4.6 4.6 0 0 0-4.44 3.434l-.11.531-.53.131C1.805 10.374 1 11.356 1 12.5 1 13.88 2.12 15 3.5 15z"/>
+                </svg>
+                Rising Waters
+            </a>
+            <div class="d-flex">
+                <a href="{{ url_for('predict_page') }}" class="btn btn-outline-light btn-sm rounded-pill px-3">New Prediction</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid dashboard-container pt-5">
+        <!-- Weather Animation Background based on prediction -->
+        <div class="weather-bg {% if prediction == 1 %}weather-rain{% else %}weather-sun{% endif %}">
+            <div class="animation-layer"></div>
+        </div>
+
+        <div class="row pt-5 mt-2 justify-content-center position-relative z-1 px-lg-5">
+            <div class="col-12 text-center mb-4">
+                <h2 class="text-white fw-bold display-6">Flood Risk Analysis Report</h2>
+                <p class="text-white-50">Real-time prediction based on meteorological inputs</p>
+            </div>
+
+            <!-- Risk Gauge Card -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card glass-card h-100 border-0 rounded-4 shadow-lg text-center p-4">
+                    <h5 class="text-uppercase fw-bold text-muted mb-4">Risk Probability</h5>
+                    
+                    <div class="progress-circle mx-auto" 
+                         style="background: conic-gradient({% if prediction == 1 %}#dc3545{% else %}#198754{% endif %} {{ probability }}%, #e9ecef 0);">
+                        <div class="progress-circle-inner d-flex flex-column justify-content-center align-items-center">
+                            <span class="fs-1 fw-black {% if prediction == 1 %}text-danger{% else %}text-success{% endif %}">{{ probability }}%</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        {% if prediction == 1 %}
+                            <h3 class="fw-bold text-danger">HIGH RISK</h3>
+                            <p class="small text-muted">Evacuation and disaster response required immediately.</p>
+                        {% else %}
+                            <h3 class="fw-bold text-success">LOW RISK</h3>
+                            <p class="small text-muted">Weather patterns are within safe thresholds.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inputs Summary Card -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card glass-card h-100 border-0 rounded-4 shadow-lg p-4">
+                    <h5 class="text-uppercase fw-bold text-muted mb-4 text-center">Meteorological Data</h5>
+                    <ul class="list-group list-group-flush bg-transparent">
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                            Annual Rainfall
+                            <span class="badge bg-primary rounded-pill fs-6">{{ inputs['Annual_Rainfall'] }} mm</span>
+                        </li>
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                            Seasonal Rainfall
+                            <span class="badge bg-primary rounded-pill fs-6">{{ inputs['Seasonal_Rainfall'] }} mm</span>
+                        </li>
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                            Temperature
+                            <span class="badge bg-warning text-dark rounded-pill fs-6">{{ inputs['Temperature'] }} °C</span>
+                        </li>
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                            Humidity
+                            <span class="badge bg-info text-dark rounded-pill fs-6">{{ inputs['Humidity'] }}%</span>
+                        </li>
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                            Cloud Visibility
+                            <span class="badge bg-secondary rounded-pill fs-6">{{ inputs['Cloud_Visibility'] }}</span>
+                        </li>
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center border-0">
+                            Monsoon Intensity
+                            <span class="badge bg-danger rounded-pill fs-6">{{ inputs['Monsoon_Intensity'] }} / 15</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chart Card -->
+            <div class="col-lg-8 mb-4">
+                <div class="card glass-card border-0 rounded-4 shadow-lg p-4">
+                    <h5 class="text-uppercase fw-bold text-muted mb-3">Rainfall Analysis</h5>
+                    <div class="chart-container" style="position: relative; height:35vh; width:100%">
+                        <canvas id="rainfallChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Hidden data for Chart.js -->
+    <script>
+        const chartData = {
+            annual_rainfall: {{ inputs['Annual_Rainfall'] }},
+            seasonal_rainfall: {{ inputs['Seasonal_Rainfall'] }}
+        };
+    </script>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -14,52 +14,100 @@
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark-custom mb-4 shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Rising Waters</a>
+            <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-water me-2 text-primary" viewBox="0 0 16 16">
+                    <path d="M.036 10.031A5.6 5.6 0 0 1 8 5c2.69 0 4.923 2 5.166 4.579C14.758 9.004 16 10.222 16 11.5c0 1.93-1.67 3.5-3.5 3.5H3.5C1.567 15 0 13.433 0 11.5c0-1.22.89-2.31 2.276-2.529zM3.5 14h9c1.38 0 2.5-1.12 2.5-2.5 0-1.144-.805-2.126-1.92-2.404l-.53-.131-.11-.531A4.6 4.6 0 0 0 8 6a4.6 4.6 0 0 0-4.44 3.434l-.11.531-.53.131C1.805 10.374 1 11.356 1 12.5 1 13.88 2.12 15 3.5 15z"/>
+                </svg>
+                Rising Waters
+            </a>
         </div>
     </nav>
 
     <div class="container pb-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
+                
+                <!-- Weather Source Card -->
+                <div class="card shadow-sm border-0 rounded-4 mb-4 form-card">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">🌍 Real-Time Weather Sync</h5>
+                        <p class="text-muted small mb-3">Fetches accurate data from national weather services (NOAA, DWD, etc.)</p>
+                        
+                        <!-- Toggle Buttons -->
+                        <div class="btn-group w-100 mb-3" role="group">
+                            <input type="radio" class="btn-check" name="locationMode" id="autoLocationBtn" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="autoLocationBtn">
+                                📍 Auto-Detect Location
+                            </label>
+                            
+                            <input type="radio" class="btn-check" name="locationMode" id="manualLocationBtn" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="manualLocationBtn">
+                                🔍 Enter City Manually
+                            </label>
+                        </div>
+
+                        <!-- Auto Location Section (shown by default) -->
+                        <div id="autoLocationSection">
+                            <button class="btn btn-primary w-100 py-2 fw-semibold rounded-pill" type="button" id="detectLocationBtn">
+                                <span id="detectBtnText">📍 Detect My Location & Fetch Weather</span>
+                                <span id="detectBtnSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                            </button>
+                        </div>
+
+                        <!-- Manual Location Section (hidden by default) -->
+                        <div id="manualLocationSection" class="d-none">
+                            <div class="input-group">
+                                <input type="text" id="cityInput" class="form-control form-control-lg" placeholder="e.g. London, Tokyo, Mumbai, Guntur">
+                                <button class="btn btn-outline-primary px-4 fw-semibold" type="button" id="fetchWeatherBtn">
+                                    <span id="fetchBtnText">Fetch Weather</span>
+                                    <span id="fetchBtnSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="weatherMessage" class="small mt-3"></div>
+                    </div>
+                </div>
+
+                <!-- Prediction Form Card -->
                 <div class="card shadow-lg border-0 rounded-4 form-card">
                     <div class="card-body p-5">
                         <div class="text-center mb-5">
                             <h2 class="fw-bold text-dark">Meteorological Input</h2>
-                            <p class="text-muted">Enter the current regional weather data to calculate flood risk.</p>
+                            <p class="text-muted">Weather data is auto-synced. Enter the remaining regional climate data below.</p>
                         </div>
                         
                         <form action="/predict" method="POST" id="predictionForm" class="needs-validation" novalidate>
                             
                             <div class="row g-4">
+                                <div class="col-md-4">
+                                    <label for="temperature" class="form-label fw-semibold">Temperature (°C) <span class="badge bg-success ms-1">Live</span></label>
+                                    <input type="number" step="any" class="form-control form-control-lg bg-light" id="temperature" name="temperature" placeholder="Fetching..." required readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="humidity" class="form-label fw-semibold">Humidity (%) <span class="badge bg-success ms-1">Live</span></label>
+                                    <input type="number" step="any" class="form-control form-control-lg bg-light" id="humidity" name="humidity" placeholder="Fetching..." required readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="cloud_visibility" class="form-label fw-semibold">Cloud Visibility <span class="badge bg-success ms-1">Live</span></label>
+                                    <input type="number" step="any" class="form-control form-control-lg bg-light" id="cloud_visibility" name="cloud_visibility" placeholder="Fetching..." required readonly>
+                                </div>
+
+                                <div class="col-12"><hr class="text-muted"></div>
+
                                 <div class="col-md-6">
                                     <label for="annual_rainfall" class="form-label fw-semibold">Annual Rainfall (mm)</label>
                                     <input type="number" step="any" class="form-control form-control-lg" id="annual_rainfall" name="annual_rainfall" placeholder="e.g. 2100" required>
                                     <div class="invalid-feedback">Please provide annual rainfall.</div>
                                 </div>
+                                
                                 <div class="col-md-6">
                                     <label for="seasonal_rainfall" class="form-label fw-semibold">Seasonal Rainfall (mm)</label>
                                     <input type="number" step="any" class="form-control form-control-lg" id="seasonal_rainfall" name="seasonal_rainfall" placeholder="e.g. 1200" required>
                                     <div class="invalid-feedback">Please provide seasonal rainfall.</div>
                                 </div>
                                 
-                                <div class="col-md-6">
-                                    <label for="temperature" class="form-label fw-semibold">Temperature (°C)</label>
-                                    <input type="number" step="any" class="form-control form-control-lg" id="temperature" name="temperature" placeholder="e.g. 28.5" required>
-                                    <div class="invalid-feedback">Please provide current temperature.</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="humidity" class="form-label fw-semibold">Humidity (%)</label>
-                                    <input type="number" step="any" class="form-control form-control-lg" id="humidity" name="humidity" placeholder="e.g. 75" required>
-                                    <div class="invalid-feedback">Please provide humidity percentage.</div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="cloud_visibility" class="form-label fw-semibold">Cloud Visibility Index</label>
-                                    <input type="number" step="any" class="form-control form-control-lg" id="cloud_visibility" name="cloud_visibility" placeholder="e.g. 6.5" required>
-                                    <div class="invalid-feedback">Please provide cloud visibility.</div>
-                                </div>
-                                
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label for="monsoon_intensity" class="form-label fw-semibold">Monsoon Intensity (1-15)</label>
                                     <input type="range" class="form-range custom-range" min="1" max="15" step="1" id="monsoon_intensity" name="monsoon_intensity" value="5" oninput="this.nextElementSibling.value = this.value">
                                     <output class="fw-bold text-primary">5</output>
@@ -69,7 +117,7 @@
                             <div class="mt-5 text-center">
                                 <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill py-3 submit-btn" id="submitBtn">
                                     <span id="btnText">Calculate Flood Risk</span>
-                                    <span id="btnSpinner" class="spinner-border spinner-border-sm d-none mx-2" role="status" aria-hidden="true"></span>
+                                    <span id="btnSpinner" class="spinner-border spinner-border-sm d-none mx-2" role="status"></span>
                                 </button>
                             </div>
                         </form>
