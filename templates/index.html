@@ -3,35 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flood Prediction System</title>
+    <title>Rising Waters | Flood Prediction</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Flood Prediction System</h1>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <p class="text-center text-muted">Machine Learning Model will be integrated here.</p>
-                        <form action="/predict" method="POST">
-                            <!-- Placeholder form fields for future inputs -->
-                            <div class="mb-3">
-                                <label for="rainfall" class="form-label">Rainfall (mm)</label>
-                                <input type="number" step="any" class="form-control" id="rainfall" name="rainfall" placeholder="Enter rainfall amount" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Predict</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+<body class="home-page">
+    <div class="hero-container d-flex align-items-center justify-content-center text-center">
+        <div class="hero-content p-5 shadow-lg rounded-4 glass-panel">
+            <h1 class="display-4 fw-bold mb-3 text-primary-gradient">Rising Waters</h1>
+            <p class="lead mb-4 text-secondary-light">Advanced Machine Learning Flood Prediction System</p>
+            <p class="mb-5 small text-muted">Empowering authorities and communities with timely, data-driven early warnings.</p>
+            <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg px-5 py-3 rounded-pill cta-btn">
+                Launch Prediction System
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+            </a>
         </div>
     </div>
 
-    <!-- Bootstrap JS Bundle with Popper -->
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
