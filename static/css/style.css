@@ -2,9 +2,17 @@
 :root {
     --primary-blue: #0052cc;
     --primary-light: #4c9aff;
-    --dark-bg: #0b132b;
-    --glass-bg: rgba(255, 255, 255, 0.85);
-    --glass-dark: rgba(11, 19, 43, 0.7);
+    
+    /* V2 Dashboard Colors */
+    --v2-bg: #070e17;
+    --v2-card-bg: #101924;
+    --v2-text-muted: #6e7f96;
+    --v2-success: #3be28e;
+    --v2-success-soft: rgba(59, 226, 142, 0.15);
+    --v2-danger: #f75757;
+    --v2-danger-soft: rgba(247, 87, 87, 0.15);
+    --v2-warning: #f1b04c;
+    --v2-warning-soft: rgba(241, 176, 76, 0.15);
 }
 
 body {
@@ -12,160 +20,123 @@ body {
     background-color: #f4f7f9;
 }
 
-/* Typography */
+.dashboard-v2-body {
+    background-color: var(--v2-bg);
+    color: white;
+    min-height: 100vh;
+}
+
+/* Typography Extensions */
+.mono-font {
+    font-family: 'JetBrains Mono', monospace;
+}
+.tracking-wide { letter-spacing: 1px; }
+.tracking-wider { letter-spacing: 2px; }
 .fw-black { font-weight: 900; }
 
-/* Home Page Specifics */
-.home-page {
-    background: linear-gradient(135deg, rgba(11,19,43,0.9) 0%, rgba(28,37,65,0.9) 100%), url('../images/image.png') center/cover no-repeat;
-    height: 100vh;
+/* V2 Dashboard Classes */
+.text-muted-custom { color: var(--v2-text-muted) !important; }
+.text-success-custom { color: var(--v2-success) !important; }
+.text-danger-custom { color: var(--v2-danger) !important; }
+.text-warning-custom { color: var(--v2-warning) !important; }
+
+.bg-success-soft-custom { background-color: var(--v2-success-soft) !important; }
+.bg-danger-soft-custom { background-color: var(--v2-danger-soft) !important; }
+.bg-warning-soft-custom { background-color: var(--v2-warning-soft) !important; }
+
+.v2-card {
+    background-color: var(--v2-card-bg);
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+.v2-card:hover {
+    transform: translateY(-3px);
+}
+
+/* Badges & Buttons */
+.badge-success-custom {
+    background-color: var(--v2-success-soft);
+    color: var(--v2-success);
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+}
+.badge-warning-custom {
+    background-color: var(--v2-warning-soft);
+    color: var(--v2-warning);
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+}
+
+.btn-outline-success-custom {
+    color: var(--v2-success);
+    border: 1px solid rgba(59, 226, 142, 0.3);
+    background: transparent;
+    transition: all 0.2s;
+}
+.btn-outline-success-custom:hover {
+    background: var(--v2-success-soft);
+    color: var(--v2-success);
+    border-color: var(--v2-success);
+}
+
+/* Linear Progress Bar */
+.custom-progress-bar {
+    height: 4px;
+    width: 100%;
+    border-radius: 2px;
     overflow: hidden;
+    background-color: rgba(255,255,255,0.05) !important;
+}
+.custom-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease-in-out;
 }
 
-.glass-panel {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.3);
-}
-
-.text-primary-gradient {
-    background: linear-gradient(90deg, #0052cc, #00a3ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* Navbar */
-.bg-dark-custom { background-color: var(--dark-bg); }
-.bg-dark-glass {
-    background: rgba(11, 19, 43, 0.85);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-/* Forms and Buttons */
-.form-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.form-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 1rem 3rem rgba(0,0,0,0.1) !important;
-}
-
-.form-control-lg {
-    border-radius: 0.75rem;
-    padding: 0.75rem 1.25rem;
-    border: 1px solid #ced4da;
-}
-.form-control-lg:focus {
-    border-color: var(--primary-light);
-    box-shadow: 0 0 0 0.25rem rgba(76, 154, 255, 0.25);
-}
-
-.submit-btn {
-    background: linear-gradient(90deg, var(--primary-blue), var(--primary-light));
-    border: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.submit-btn:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 20px rgba(0, 82, 204, 0.3);
-}
-
-/* Custom Range Slider */
-.custom-range { height: 1.5rem; }
-.custom-range::-webkit-slider-thumb { background: var(--primary-blue); }
-
-/* Dashboard UI */
-.dashboard-body {
-    background-color: var(--dark-bg);
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-.dashboard-container {
+/* SVG Arc Gauge */
+.arc-gauge-container {
     position: relative;
-    min-height: 100vh;
+    width: 220px;
+    height: 220px;
 }
-
-.glass-card {
-    background: rgba(18, 30, 61, 0.75); /* Lighter dark for better contrast */
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.arc-gauge {
+    width: 100%;
+    height: 100%;
 }
-.glass-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+.arc-track {
+    stroke: rgba(255,255,255,0.05);
 }
-
-.glow-danger { box-shadow: 0 0 25px rgba(220, 53, 69, 0.6); }
-.glow-success { box-shadow: 0 0 25px rgba(25, 135, 84, 0.6); }
-
-
-/* Progress Circle Gauge */
-.progress-circle {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.arc-progress {
+    /* Total circumference of radius 45 is ~283. Our 270 degree arc is ~212 */
+    stroke-dasharray: 283;
+    stroke-dashoffset: calc(283 - (212 * var(--progress-value)) / 100);
+    transition: stroke-dashoffset 1.5s ease-out;
 }
-.progress-circle-inner {
-    width: 120px;
-    height: 120px;
-    background: var(--glass-dark);
-    border-radius: 50%;
+.arc-success {
+    stroke: var(--v2-success);
+    filter: drop-shadow(0 0 10px rgba(59, 226, 142, 0.4));
+}
+.arc-danger {
+    stroke: var(--v2-danger);
+    filter: drop-shadow(0 0 10px rgba(247, 87, 87, 0.4));
+}
+.arc-text {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
 
-/* Weather Animations Background */
-.weather-bg {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 0;
-    overflow: hidden;
-}
-
-.weather-rain {
-    background: linear-gradient(to bottom, #2b3240, #0b132b);
-}
-.weather-rain .animation-layer {
-    width: 100%; height: 100%;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" opacity="0.3"><line x1="5" y1="0" x2="0" y2="20" stroke="white" stroke-width="1" stroke-linecap="round"/></svg>');
-    animation: rain 0.8s linear infinite;
-}
-
-.weather-sun {
-    background: linear-gradient(to bottom, #1c2541, #0b132b);
-}
-.weather-sun .animation-layer {
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, rgba(255,215,0,0) 70%);
-    position: absolute;
-    top: -50px; right: -50px;
-    border-radius: 50%;
-    animation: sun-glow 4s ease-in-out infinite alternate;
-}
-
-@keyframes rain {
-    from { background-position: 0 0; }
-    to { background-position: -20px 100vh; }
-}
-
-@keyframes sun-glow {
-    from { transform: scale(1); opacity: 0.6; }
-    to { transform: scale(1.3); opacity: 0.9; }
-}
-
-/* Auto-filled field green flash */
-.field-synced {
-    animation: greenFlash 1.5s ease;
-}
-
+/* Older Predict/Index styles preserved below */
+.glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); }
+.bg-dark-custom { background-color: #0b132b; }
+.form-control-lg:focus { border-color: var(--primary-light); box-shadow: 0 0 0 0.25rem rgba(76, 154, 255, 0.25); }
+.submit-btn { background: linear-gradient(90deg, var(--primary-blue), var(--primary-light)); border: none; }
+.field-synced { animation: greenFlash 1.5s ease; }
 @keyframes greenFlash {
     0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.5); background-color: #d1e7dd; }
-    100% { box-shadow: 0 0 0 0 transparent; background-color: #e9ecef; }
+    100% { box-shadow: 0 0 0 0 transparent; background-color: #f8f9fa; }
 }
