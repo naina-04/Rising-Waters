@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the Data | Rising Waters</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-v2-body">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent pt-4 px-lg-5">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold fs-4" href="{{ url_for('home') }}">
+                <i class="bi bi-water text-primary me-2"></i> Rising Waters
+            </a>
+            <div class="ms-auto">
+                <a href="{{ url_for('predict_page') }}" class="btn btn-outline-light rounded-pill px-4 tracking-wide text-uppercase btn-sm">Try Predictor</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                
+                <div class="text-center mb-5">
+                    <h1 class="fw-bold text-white display-5 mb-3">Understanding the Data</h1>
+                    <p class="text-muted-custom fs-5">A guide to the meteorological factors that drive our flood prediction model.</p>
+                </div>
+
+                <div class="row g-4">
+                    
+                    <!-- Annual Rainfall -->
+                    <div class="col-md-6">
+                        <div class="v2-card p-4 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-box bg-primary bg-opacity-25 text-primary rounded p-3 me-3">
+                                    <i class="bi bi-cloud-rain fs-4"></i>
+                                </div>
+                                <h4 class="text-white fw-bold mb-0">Annual Rainfall</h4>
+                            </div>
+                            <p class="text-muted-custom lh-lg mb-0">
+                                The total accumulation of rain a specific region receives over a full year, measured in millimeters (mm). Regions with historically high annual rainfall have a higher baseline risk, as their soil and drainage systems are frequently tested by large volumes of water.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Seasonal Rainfall -->
+                    <div class="col-md-6">
+                        <div class="v2-card p-4 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-box bg-info bg-opacity-25 text-info rounded p-3 me-3">
+                                    <i class="bi bi-droplet fs-4"></i>
+                                </div>
+                                <h4 class="text-white fw-bold mb-0">Seasonal Rainfall</h4>
+                            </div>
+                            <p class="text-muted-custom lh-lg mb-0">
+                                The amount of rain concentrated within a specific weather season (like a monsoon or wet season). A sudden, massive spike in seasonal rainfall is one of the most critical triggers for flash floods, as the ground becomes rapidly saturated.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Temperature -->
+                    <div class="col-md-6">
+                        <div class="v2-card p-4 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-box bg-warning-soft-custom text-warning-custom rounded p-3 me-3">
+                                    <i class="bi bi-thermometer-half fs-4"></i>
+                                </div>
+                                <h4 class="text-white fw-bold mb-0">Temperature</h4>
+                            </div>
+                            <p class="text-muted-custom lh-lg mb-0">
+                                The current atmospheric temperature measured in Celsius (°C). Extreme temperatures can influence flood risks in multiple ways: high heat increases evaporation rates (fueling storm clouds), while sudden warming in colder regions can trigger rapid snowmelt.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Humidity -->
+                    <div class="col-md-6">
+                        <div class="v2-card p-4 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-box bg-success-soft-custom text-success-custom rounded p-3 me-3">
+                                    <i class="bi bi-moisture fs-4"></i>
+                                </div>
+                                <h4 class="text-white fw-bold mb-0">Humidity</h4>
+                            </div>
+                            <p class="text-muted-custom lh-lg mb-0">
+                                The concentration of water vapor present in the air, represented as a percentage. High humidity levels combined with specific temperature drops often lead to intense, prolonged precipitation events that overwhelm local drainage systems.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Cloud Visibility -->
+                    <div class="col-md-6">
+                        <div class="v2-card p-4 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-box bg-secondary bg-opacity-25 text-light rounded p-3 me-3">
+                                    <i class="bi bi-cloud fs-4"></i>
+                                </div>
+                                <h4 class="text-white fw-bold mb-0">Cloud Visibility</h4>
+                            </div>
+                            <p class="text-muted-custom lh-lg mb-0">
+                                A scaled metric (0.0 to 10.0) indicating atmospheric clarity and cloud cover density. Lower visibility scores often correlate with the presence of dense, moisture-heavy storm clouds, signaling an imminent threat of heavy rainfall.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Monsoon Intensity -->
+                    <div class="col-md-6">
+                        <div class="v2-card p-4 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-box bg-danger-soft-custom text-danger-custom rounded p-3 me-3">
+                                    <i class="bi bi-hurricane fs-4"></i>
+                                </div>
+                                <h4 class="text-white fw-bold mb-0">Monsoon Intensity</h4>
+                            </div>
+                            <p class="text-muted-custom lh-lg mb-0">
+                                A severity index ranging from 1 to 15 that represents the extreme nature of local weather patterns. A higher intensity score points toward torrential downpours, severe storm systems, and an exponentially higher probability of catastrophic flooding.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="text-center mt-5 pt-4">
+                    <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold tracking-wide shadow-lg">
+                        RETURN TO PREDICTOR
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

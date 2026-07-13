@@ -72,6 +72,10 @@ def home():
 def predict_page():
     return render_template('predict.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 @app.route('/fetch_weather', methods=['POST'])
 def fetch_weather():
     """Fetch weather by city name. Uses Open-Meteo geocoding + weather API."""
@@ -102,6 +106,8 @@ def fetch_weather():
         return jsonify({
             'success': True,
             'city': f"{city_name}, {country}",
+            'lat': lat,
+            'lon': lon,
             **weather
         })
 
@@ -140,6 +146,8 @@ def fetch_weather_coords():
         return jsonify({
             'success': True,
             'city': city_name,
+            'lat': lat,
+            'lon': lon,
             **weather
         })
 
@@ -158,6 +166,10 @@ def predict():
             'Humidity': float(request.form['humidity']),
             'Cloud_Visibility': float(request.form['cloud_visibility'])
         }
+        
+        # Get coordinates for the map (default to center of the map if not provided)
+        lat = request.form.get('latitude', '')
+        lon = request.form.get('longitude', '')
 
         # Combine user inputs with default medians to form the full 25 features
         input_data = {}
@@ -181,7 +193,9 @@ def predict():
         return render_template('dashboard.html', 
                                prediction=prediction, 
                                probability=round(probability, 2), 
-                               inputs=user_inputs)
+                               inputs=user_inputs,
+                               lat=lat,
+                               lon=lon)
             
     except Exception as e:
         print(f"Error during prediction: {e}")

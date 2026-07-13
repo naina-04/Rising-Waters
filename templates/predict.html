@@ -112,6 +112,10 @@
                                     <input type="range" class="form-range custom-range" min="1" max="15" step="1" id="monsoon_intensity" name="monsoon_intensity" value="5" oninput="this.nextElementSibling.value = this.value">
                                     <output class="fw-bold text-primary">5</output>
                                 </div>
+                                
+                                <!-- Hidden Fields for Map -->
+                                <input type="hidden" id="latitude" name="latitude" value="">
+                                <input type="hidden" id="longitude" name="longitude" value="">
                             </div>
 
                             <div class="mt-5 text-center">
@@ -125,6 +129,16 @@
                 </div>
             </div>
         </div>
+
+        <!-- Footer / About Link -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="{{ url_for('about') }}" class="text-secondary text-decoration-none hover-primary transition-all">
+                    <i class="bi bi-info-circle me-1"></i>Learn how this prediction model works
+                </a>
+            </div>
+        </div>
+
     </div>
 
     <!-- Bootstrap JS Bundle -->

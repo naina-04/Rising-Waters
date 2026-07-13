@@ -28,6 +28,14 @@ document.addEventListener("DOMContentLoaded", function() {
         tempField.value = data.temperature;
         humField.value = data.humidity;
         visField.value = data.cloud_visibility;
+        
+        // Save coordinates for the map
+        if (data.lat !== undefined && data.lon !== undefined) {
+            const latField = document.getElementById('latitude');
+            const lonField = document.getElementById('longitude');
+            if (latField) latField.value = data.lat;
+            if (lonField) lonField.value = data.lon;
+        }
 
         // Flash green highlight on auto-filled fields
         [tempField, humField, visField].forEach(field => {
@@ -226,5 +234,54 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
         });
+    }
+    
+    // --- Leaflet Weather Map Integration ---
+    const mapElement = document.getElementById('weatherMap');
+    if (mapElement && typeof mapLat !== 'undefined' && typeof mapLon !== 'undefined') {
+        
+        // Fallback to center of India if no coordinates provided
+        let initLat = mapLat ? parseFloat(mapLat) : 20.5937;
+        let initLon = mapLon ? parseFloat(mapLon) : 78.9629;
+        let zoomLvl = mapLat ? 10 : 5;
+
+        // Initialize map
+        const map = L.map('weatherMap', {
+            zoomControl: false // Disable default zoom to position it custom if needed
+        }).setView([initLat, initLon], zoomLvl);
+        
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        // Dark Matter Base Layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+
+        // Add Marker if coordinates exist
+        if (mapLat && mapLon) {
+            L.marker([initLat, initLon]).addTo(map)
+                .bindPopup('<b class="text-dark">Analyzed Location</b>')
+                .openPopup();
+        }
+
+        // Add RainViewer API Radar Layer (Free, no API key required)
+        fetch('https://api.rainviewer.com/public/weather-maps.json')
+            .then(res => res.json())
+            .then(data => {
+                if (data.radar && data.radar.past && data.radar.past.length > 0) {
+                    const latestFrame = data.radar.past[data.radar.past.length - 1];
+                    const framePath = latestFrame.path;
+                    
+                    // RainViewer Tile Layer configuration
+                    L.tileLayer(`https://tilecache.rainviewer.com${framePath}/256/{z}/{x}/{y}/2/1_1.png`, {
+                        opacity: 0.7,
+                        maxNativeZoom: 12, // Stops requesting radar tiles past zoom 12 (prevents the 'Not Supported' tiles)
+                        attribution: '&copy; <a href="https://www.rainviewer.com/api.html">RainViewer</a>'
+                    }).addTo(map);
+                }
+            })
+            .catch(err => console.error("Could not load RainViewer data:", err));
     }
 });

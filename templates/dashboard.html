@@ -10,6 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body class="dashboard-v2-body">
@@ -197,18 +199,47 @@
             </div>
         </div>
 
+        <!-- Weather Map Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="v2-card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h6 class="text-uppercase tracking-wider text-muted-custom fw-bold mb-0">Live Precipitation Radar</h6>
+                        <span class="badge bg-primary bg-opacity-25 text-primary text-uppercase tracking-wide"><i class="bi bi-broadcast me-1"></i>Live</span>
+                    </div>
+                    
+                    <div class="map-container rounded" style="position: relative; height:45vh; width:100%; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+                        <div id="weatherMap" style="height:100%; width:100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer / About Link -->
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a href="{{ url_for('about') }}" class="text-muted-custom text-decoration-none hover-white transition-all">
+                    <i class="bi bi-info-circle me-2"></i>Learn how this prediction model works
+                </a>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Hidden data for Chart.js -->
+    <!-- Hidden data for Chart.js & Map -->
     <script>
         const chartData = {
             annual_rainfall: {{ inputs['Annual_Rainfall'] }},
             seasonal_rainfall: {{ inputs['Seasonal_Rainfall'] }}
         };
+        const mapLat = "{{ lat }}";
+        const mapLon = "{{ lon }}";
     </script>
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
