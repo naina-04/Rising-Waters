@@ -43,9 +43,9 @@
             <!-- Risk Gauge Card -->
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card glass-card h-100 border-0 rounded-4 shadow-lg text-center p-4">
-                    <h5 class="text-uppercase fw-bold text-muted mb-4">Risk Probability</h5>
+                    <h5 class="text-uppercase fw-bold text-white mb-4">Risk Probability</h5>
                     
-                    <div class="progress-circle mx-auto" 
+                    <div class="progress-circle mx-auto {% if prediction == 1 %}glow-danger{% else %}glow-success{% endif %}" 
                          style="background: conic-gradient({% if prediction == 1 %}#dc3545{% else %}#198754{% endif %} {{ probability }}%, #e9ecef 0);">
                         <div class="progress-circle-inner d-flex flex-column justify-content-center align-items-center">
                             <span class="fs-1 fw-black {% if prediction == 1 %}text-danger{% else %}text-success{% endif %}">{{ probability }}%</span>
@@ -55,10 +55,10 @@
                     <div class="mt-4">
                         {% if prediction == 1 %}
                             <h3 class="fw-bold text-danger">HIGH RISK</h3>
-                            <p class="small text-muted">Evacuation and disaster response required immediately.</p>
+                            <p class="small text-white-50">Evacuation and disaster response required immediately.</p>
                         {% else %}
                             <h3 class="fw-bold text-success">LOW RISK</h3>
-                            <p class="small text-muted">Weather patterns are within safe thresholds.</p>
+                            <p class="small text-white-50">Weather patterns are within safe thresholds.</p>
                         {% endif %}
                     </div>
                 </div>
@@ -67,27 +67,27 @@
             <!-- Inputs Summary Card -->
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card glass-card h-100 border-0 rounded-4 shadow-lg p-4">
-                    <h5 class="text-uppercase fw-bold text-muted mb-4 text-center">Meteorological Data</h5>
+                    <h5 class="text-uppercase fw-bold text-white mb-4 text-center">Meteorological Data</h5>
                     <ul class="list-group list-group-flush bg-transparent">
-                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center border-secondary">
                             Annual Rainfall
                             <span class="badge bg-primary rounded-pill fs-6">{{ inputs['Annual_Rainfall'] }} mm</span>
                         </li>
-                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center border-secondary">
                             Seasonal Rainfall
                             <span class="badge bg-primary rounded-pill fs-6">{{ inputs['Seasonal_Rainfall'] }} mm</span>
                         </li>
-                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center border-secondary">
                             Temperature
                             <span class="badge bg-warning text-dark rounded-pill fs-6">{{ inputs['Temperature'] }} °C</span>
                         </li>
-                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center border-secondary">
                             Humidity
                             <span class="badge bg-info text-dark rounded-pill fs-6">{{ inputs['Humidity'] }}%</span>
                         </li>
-                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                        <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center border-secondary">
                             Cloud Visibility
-                            <span class="badge bg-secondary rounded-pill fs-6">{{ inputs['Cloud_Visibility'] }}</span>
+                            <span class="badge bg-light text-dark rounded-pill fs-6">{{ inputs['Cloud_Visibility'] }}</span>
                         </li>
                         <li class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center border-0">
                             Monsoon Intensity
@@ -100,7 +100,25 @@
             <!-- Chart Card -->
             <div class="col-lg-8 mb-4">
                 <div class="card glass-card border-0 rounded-4 shadow-lg p-4">
-                    <h5 class="text-uppercase fw-bold text-muted mb-3">Rainfall Analysis</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="text-uppercase fw-bold text-white mb-0">Rainfall Analysis</h5>
+                        
+                        <!-- Chart Controls -->
+                        <div class="btn-group btn-group-sm" role="group">
+                            <input type="radio" class="btn-check" name="chartType" id="chartBar" value="bar" autocomplete="off" checked>
+                            <label class="btn btn-outline-light" for="chartBar">Bar</label>
+                            
+                            <input type="radio" class="btn-check" name="chartType" id="chartLine" value="line" autocomplete="off">
+                            <label class="btn btn-outline-light" for="chartLine">Line</label>
+                            
+                            <input type="radio" class="btn-check" name="chartType" id="chartPie" value="pie" autocomplete="off">
+                            <label class="btn btn-outline-light" for="chartPie">Pie</label>
+                            
+                            <input type="radio" class="btn-check" name="chartType" id="chartDoughnut" value="doughnut" autocomplete="off">
+                            <label class="btn btn-outline-light" for="chartDoughnut">Donut</label>
+                        </div>
+                    </div>
+                    
                     <div class="chart-container" style="position: relative; height:35vh; width:100%">
                         <canvas id="rainfallChart"></canvas>
                     </div>

@@ -88,10 +88,20 @@ body {
 }
 
 .glass-card {
-    background: var(--glass-dark);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(18, 30, 61, 0.75); /* Lighter dark for better contrast */
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.glow-danger { box-shadow: 0 0 25px rgba(220, 53, 69, 0.6); }
+.glow-success { box-shadow: 0 0 25px rgba(25, 135, 84, 0.6); }
+
 
 /* Progress Circle Gauge */
 .progress-circle {

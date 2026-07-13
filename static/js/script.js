@@ -161,12 +161,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // --- Chart.js on Dashboard ---
-    if (document.getElementById('rainfallChart')) {
+    if (document.getElementById('rainfallChart') && typeof chartData !== 'undefined') {
         const ctx = document.getElementById('rainfallChart').getContext('2d');
-        
-        if (typeof chartData !== 'undefined') {
-            new Chart(ctx, {
-                type: 'bar',
+        let currentChart = null;
+
+        function renderChart(type) {
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            const chartConfig = {
+                type: type,
                 data: {
                     labels: ['Annual Rainfall', 'Seasonal Rainfall'],
                     datasets: [{
@@ -181,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             'rgb(13, 202, 240)'
                         ],
                         borderWidth: 1,
-                        borderRadius: 6
+                        borderRadius: type === 'bar' ? 6 : 0
                     }]
                 },
                 options: {
@@ -192,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             labels: { color: 'rgba(255, 255, 255, 0.8)' }
                         }
                     },
-                    scales: {
+                    scales: (type === 'pie' || type === 'doughnut') ? {} : {
                         y: {
                             beginAtZero: true,
                             grid: { color: 'rgba(255, 255, 255, 0.1)' },
@@ -204,7 +209,22 @@ document.addEventListener("DOMContentLoaded", function() {
                         }
                     }
                 }
-            });
+            };
+
+            currentChart = new Chart(ctx, chartConfig);
         }
+
+        // Initialize default chart
+        renderChart('bar');
+
+        // Event listeners for chart type toggle
+        const chartTypeRadios = document.querySelectorAll('input[name="chartType"]');
+        chartTypeRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    renderChart(this.value);
+                }
+            });
+        });
     }
 });
