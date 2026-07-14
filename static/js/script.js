@@ -1,6 +1,6 @@
 // Form Validation and Submission handling
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Rising Waters Frontend Loaded");
+    console.log("Rising Water Frontend Loaded");
 
     // --- Location Mode Toggle ---
     const autoBtn = document.getElementById('autoLocationBtn');
